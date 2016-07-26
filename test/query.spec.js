@@ -2,13 +2,14 @@ var db = require('../db');
 var expect = require('chai').expect;
 
 describe('users', function(){
-  it('there are three users', function(done){
+  it.only('there are three users', function(done){
     var qry = `
-      select name
+      select count(*) as total
       from users
       `;
-    db.query(qry, [], function(results){
-      expect(results.length).to.equal(3);
+    db.get(qry, [], function(result){
+      console.log(result);
+      expect(result.total).to.equal(3);
       done();
     });
   });
@@ -29,10 +30,9 @@ describe('users', function(){
       from users
       where name = ?
       `;
-    db.get(qry, ['curly'], function(result){
-      expect(result.name).to.equal('curly');
+    db.query(qry, ['curly'], function(results){
+      expect(results[0].name).to.equal('curly');
       done();
-      
     });
     
   });
