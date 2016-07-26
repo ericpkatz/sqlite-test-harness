@@ -23,4 +23,20 @@ describe('users', function(){
       done();
     });
   });
+  it('curly is a user', function(done){
+    var qry = `
+      select name
+      from users
+      where name = ?
+      `;
+    db.get(qry, ['curly'], function(result){
+      expect(result.name).to.equal('curly');
+      done();
+      
+    });
+    
+  });
+  xit('shep is a user', function(done){
+    
+  });
 });
