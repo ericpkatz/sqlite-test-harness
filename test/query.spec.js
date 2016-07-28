@@ -1,8 +1,19 @@
 var db = require('../db');
 var expect = require('chai').expect;
+var chalk = require('chalk');
 
 describe('users', function(){
-  it.only('there are three users', function(done){
+  before(function(done){
+    db.connect(function(conn){
+      conn.on('profile', function(sql, time){
+        console.log(chalk.blue(sql));
+        console.log(chalk.magenta(time/1000 + ' seconds'));
+      });
+      done();
+    });
+  }); 
+
+  it('there are three users', function(done){
     var qry = `
       select count(*) as total
       from users

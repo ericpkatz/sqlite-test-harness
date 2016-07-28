@@ -1,4 +1,5 @@
 var sqlite3 = require('sqlite3');
+var path = require('path');
 
 var _db;
 
@@ -6,8 +7,11 @@ module.exports = {
   connect: function(cb){
     if(_db)
       return cb(_db);
-    
-    new sqlite3.Database('acme.db', function(err){
+    var file = path.join(__dirname, process.env.DB);
+    console.log(file);
+
+    new sqlite3.Database( file , function(err){
+      console.log(err);
       _db = this;
       cb(_db);
     });
